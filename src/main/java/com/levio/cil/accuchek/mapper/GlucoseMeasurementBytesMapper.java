@@ -4,8 +4,9 @@ import com.levio.cil.accuchek.dtos.SensorStatusAnnunciationDto;
 import com.levio.cil.accuchek.dtos.FlagsDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementRawDataDto;
+import org.springframework.stereotype.Component;
 
-@SuppressWarnings("all")
+@Component
 public class GlucoseMeasurementBytesMapper {
   
   public GlucoseMeasurementBytesMapper() {

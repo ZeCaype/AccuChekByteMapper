@@ -16,8 +16,8 @@ public class GlucoseMeasurementController {
   private GlucoseMeasurementBytesMapper mapper;
 
   @Autowired
-  public GlucoseMeasurementController() {
-    mapper = new GlucoseMeasurementBytesMapper();
+  public GlucoseMeasurementController(GlucoseMeasurementBytesMapper glucoseMeasurementBytesMapper) {
+    this.mapper = glucoseMeasurementBytesMapper;
   }
 
   @PostMapping
