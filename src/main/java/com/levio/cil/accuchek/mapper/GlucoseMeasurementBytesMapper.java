@@ -1,5 +1,6 @@
 package com.levio.cil.accuchek.mapper;
 
+import org.apache.tomcat.util.buf.StringUtils;
 import com.levio.cil.accuchek.dtos.FlagsDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementRawDataDto;
@@ -12,17 +13,19 @@ public class GlucoseMeasurementBytesMapper {
   }
   
   public GlucoseMeasurementDto mapToReadableGlucoseMeasurementDto(GlucoseMeasurementRawDataDto rawData) {
-    GlucoseMeasurementDto glucose = new GlucoseMeasurementDto();
+    GlucoseMeasurementDto glucoseMeasurementDto = new GlucoseMeasurementDto();
     FlagsDto flags = new FlagsDto();
     
     setFlagsFromRawData(rawData, flags);
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 2) + getBitArrayFromSpecificByte(rawData, 1);
+    glucoseMeasurementDto.setSequenceNumber(Integer.parseInt(rawSequenceNumberBits, 2));
     
-    glucose.setFlags(flags);
-    return glucose;
+    glucoseMeasurementDto.setFlags(flags);
+    return glucoseMeasurementDto;
   }
 
   private void setFlagsFromRawData(GlucoseMeasurementRawDataDto rawData, FlagsDto flags) {
-    String rawFlagsBits = String.format("%8s", Integer.toBinaryString(rawData.getData()[0])).replace(' ', '0');
+    String rawFlagsBits = getBitArrayFromSpecificByte(rawData, 0);
     rawFlagsBits = new StringBuilder(rawFlagsBits).reverse().toString();
     int bitCount = 0;
     
@@ -59,6 +62,10 @@ public class GlucoseMeasurementBytesMapper {
       return true;
     }
     return (Boolean) null;
+  }
+  
+  private String getBitArrayFromSpecificByte(GlucoseMeasurementRawDataDto rawData, int i) {
+    return String.format("%8s", Integer.toBinaryString(rawData.getData()[i])).replace(' ', '0');
   }
   
 }
