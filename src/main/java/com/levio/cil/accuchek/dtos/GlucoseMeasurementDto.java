@@ -7,6 +7,7 @@ public class GlucoseMeasurementDto {
 
   private FlagsDto flags;
   private LocalDateTime date;
+  private SensorStatusAnnunciationDto sensorStatusAnnunciationDto;
   
   @JsonIgnore
   private int sequenceNumber;
@@ -23,6 +24,7 @@ public class GlucoseMeasurementDto {
   @JsonIgnore
   private int second;
   @JsonIgnore
+  private int sampleLocation;
 
   public GlucoseMeasurementDto() {
 
@@ -100,4 +102,20 @@ public class GlucoseMeasurementDto {
     this.date = LocalDateTime.of(this.year, this.month, this.day, this.hour, this.minute, this.second);
   }
 
+  public SensorStatusAnnunciationDto getSensorStatusAnnunciationDto() {
+    return sensorStatusAnnunciationDto;
+  }
+
+  public void setSensorStatusAnnunciationDto(
+      SensorStatusAnnunciationDto sensorStatusAnnunciationDto) {
+    this.sensorStatusAnnunciationDto = sensorStatusAnnunciationDto;
+  }
+
+  public int getSampleLocation() {
+    return sampleLocation;
+  }
+
+  public void setSampleLocation(int sampleLocation) {
+    this.sampleLocation = sampleLocation;
+  }
 }

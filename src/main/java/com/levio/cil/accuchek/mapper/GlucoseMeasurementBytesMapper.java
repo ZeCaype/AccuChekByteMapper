@@ -1,5 +1,6 @@
 package com.levio.cil.accuchek.mapper;
 
+import com.levio.cil.accuchek.dtos.SensorStatusAnnunciationDto;
 import org.apache.tomcat.util.buf.StringUtils;
 import com.levio.cil.accuchek.dtos.FlagsDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementDto;
@@ -15,7 +16,8 @@ public class GlucoseMeasurementBytesMapper {
   public GlucoseMeasurementDto mapToReadableGlucoseMeasurementDto(GlucoseMeasurementRawDataDto rawData) {
     GlucoseMeasurementDto glucoseMeasurementDto = new GlucoseMeasurementDto();
     FlagsDto flags = new FlagsDto();
-    
+    SensorStatusAnnunciationDto sensorStatusAnnunciationDto = new SensorStatusAnnunciationDto();
+
     setFlagsFromRawData(rawData, flags);
     setSequenceNumberFromRawData(rawData, glucoseMeasurementDto);
     setYearFromRawData(rawData, glucoseMeasurementDto);
@@ -24,12 +26,82 @@ public class GlucoseMeasurementBytesMapper {
     setHourFromRawData(rawData, glucoseMeasurementDto);
     setMinutesFromRawData(rawData, glucoseMeasurementDto);
     setSecondsFromRawData(rawData, glucoseMeasurementDto);
+    setSensorStatusAnnunciation(rawData, sensorStatusAnnunciationDto);
+    setSampleLocation(rawData, glucoseMeasurementDto);
     
     glucoseMeasurementDto.setDate();
     glucoseMeasurementDto.setFlags(flags);
     return glucoseMeasurementDto;
   }
-  
+
+  private void setSampleLocation(GlucoseMeasurementRawDataDto rawData, GlucoseMeasurementDto glucoseMeasurementDto) {
+
+    //glucoseMeasurementDto.setSampleLocation();
+  }
+
+  private void setSensorStatusAnnunciation(GlucoseMeasurementRawDataDto rawData, SensorStatusAnnunciationDto sensorStatusAnnunciationDto) {
+    String rawSensorStatusAnnunciationByte1 = getBitArrayFromSpecificByte(rawData, 16);
+    String rawSensorStatusAnnunciationByte2 = getBitArrayFromSpecificByte(rawData, 17);
+    rawSensorStatusAnnunciationByte1 = new StringBuilder(rawSensorStatusAnnunciationByte1).reverse().toString();
+    rawSensorStatusAnnunciationByte2 = new StringBuilder(rawSensorStatusAnnunciationByte2).reverse().toString();
+    int bitCount = 0;
+
+    for (char bit: rawSensorStatusAnnunciationByte1.toCharArray()) {
+      switch(bitCount) {
+        case 0:
+          sensorStatusAnnunciationDto.setDeviceBatteryLowAtTimeOfMeasurement(getBooleanFromBitValue(bit));
+          break;
+        case 1:
+          sensorStatusAnnunciationDto.setSensorMalfunctionOrFaultingAtTimeOfMeasurement(getBooleanFromBitValue(bit));
+          break;
+        case 2:
+          sensorStatusAnnunciationDto.setSampleSizeForBloodOrControlSolutionInsufficientAtTimeOfMeasurement(getBooleanFromBitValue(bit));
+          break;
+        case 3:
+          sensorStatusAnnunciationDto.setStripInsertionError(getBooleanFromBitValue(bit));
+          break;
+        case 4:
+          sensorStatusAnnunciationDto.setStripTypeIncorrectForDevice(getBooleanFromBitValue(bit));
+          break;
+        case 5:
+          sensorStatusAnnunciationDto.setSensorResultHigherThanTheDeviceCanProcess(getBooleanFromBitValue(bit));
+          break;
+        case 6:
+          sensorStatusAnnunciationDto.setSensorResultLowerThanTheDeviceCanProcess(getBooleanFromBitValue(bit));
+          break;
+        case 7:
+          sensorStatusAnnunciationDto.setSensorTemperatureTooHighForValidTestResultAtTimeOfMeasurement(getBooleanFromBitValue(bit));
+          break;
+        default:
+          break;
+      }
+      bitCount++;
+    }
+
+    bitCount = 0;
+
+    for (char bit: rawSensorStatusAnnunciationByte2.toCharArray()) {
+      switch(bitCount) {
+        case 0:
+          sensorStatusAnnunciationDto.setSensorTemperatureTooLowForValidTestResultAtTimeOfMeasurement(getBooleanFromBitValue(bit));
+          break;
+        case 1:
+          sensorStatusAnnunciationDto.setSensorReadInterruptedBecauseStripWasPulledTooSoonAtTimeOfMeasurement(getBooleanFromBitValue(bit));
+          break;
+        case 2:
+          sensorStatusAnnunciationDto.setGeneralDeviceFaultHasOccurredInTheSensor(getBooleanFromBitValue(bit));
+          break;
+        case 3:
+          sensorStatusAnnunciationDto.setTimeFaultHasOccurredInTheSensorAndTimeMayBeInaccurate(getBooleanFromBitValue(bit));
+          break;
+        default:
+          //Cases 4-5-6-7 are bits reserved for future uses.
+          break;
+      }
+      bitCount++;
+    }
+  }
+
   private void setSecondsFromRawData(GlucoseMeasurementRawDataDto rawData,
       GlucoseMeasurementDto glucoseMeasurementDto) {
     String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 9);
