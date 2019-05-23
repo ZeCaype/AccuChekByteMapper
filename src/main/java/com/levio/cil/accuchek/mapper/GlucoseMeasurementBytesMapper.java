@@ -28,9 +28,13 @@ public class GlucoseMeasurementBytesMapper {
     setSecondsFromRawData(rawData, glucoseMeasurementDto);
     setSensorStatusAnnunciation(rawData, sensorStatusAnnunciationDto);
     setSampleLocation(rawData, glucoseMeasurementDto);
+    setTimeOffsetFromRawData(rawData, glucoseMeasurementDto);
+    setGlucoseConcentrationValueFromRawData(rawData, glucoseMeasurementDto);
     
     glucoseMeasurementDto.setDate();
+    flags.setGlucoseConcentrationUnit();
     glucoseMeasurementDto.setFlags(flags);
+    
     return glucoseMeasurementDto;
   }
 
@@ -102,6 +106,21 @@ public class GlucoseMeasurementBytesMapper {
     }
   }
 
+  private void setGlucoseConcentrationValueFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String exponent = getBitArrayFromSpecificByte(rawData, 13).substring(0, 4);
+    exponent = new StringBuilder(exponent).reverse().toString();
+    String mantissa = getBitArrayFromSpecificByte(rawData, 13).substring(4, 8) + getBitArrayFromSpecificByte(rawData, 12);
+    int mantissaValue = Integer.parseInt(mantissa, 2);
+    int exponentValue = Integer.parseInt(exponent.substring(1), 2);
+    
+    if (exponent.charAt(0) == '1') {
+      exponentValue = -exponentValue;
+    }
+
+    glucoseMeasurementDto.setGlucoseConcentration((float) (mantissaValue * (Math.pow(10, exponentValue))));
+  }
+
   private void setSecondsFromRawData(GlucoseMeasurementRawDataDto rawData,
       GlucoseMeasurementDto glucoseMeasurementDto) {
     String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 9);
@@ -143,6 +162,13 @@ public class GlucoseMeasurementBytesMapper {
     int year = Integer.parseInt(rawSequenceNumberBits, 2);
     glucoseMeasurementDto.setYear(year);
   }
+  
+  private void setTimeOffsetFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 11) + getBitArrayFromSpecificByte(rawData, 10);
+    int timeOffset = Integer.parseInt(rawSequenceNumberBits, 2);
+    glucoseMeasurementDto.setTimeOffset(timeOffset);
+  }
 
   private void setSequenceNumberFromRawData(GlucoseMeasurementRawDataDto rawData,
       GlucoseMeasurementDto glucoseMeasurementDto) {
@@ -164,7 +190,7 @@ public class GlucoseMeasurementBytesMapper {
           flags.setGlucoseConcentrationTypeSamplePresent(getBooleanFromBitValue(bit));
           break;
         case 2:
-          flags.setGlucoseConcentrationUnit(getBooleanFromBitValue(bit));
+          flags.setGlucoseConcentrationUnitFlag(getBooleanFromBitValue(bit));
           break;
         case 3:
           flags.setSensorStatusAnnunciationPresent(getBooleanFromBitValue(bit));

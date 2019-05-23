@@ -4,12 +4,13 @@ public class FlagsDto {
 
   private boolean timeOffsetPresent;
   private boolean glucoseConcentrationTypeSamplePresent;
-  private boolean glucoseConcentrationUnit;
+  private boolean glucoseConcentrationUnitFlag;
+  private String glucoseConcentrationUnit;
   private boolean sensorStatusAnnunciationPresent;
   private boolean contextInformationsFollows;
-  
+
   public FlagsDto() {
-    
+
   }
 
   public boolean isTimeOffsetPresent() {
@@ -29,14 +30,6 @@ public class FlagsDto {
     this.glucoseConcentrationTypeSamplePresent = glucoseConcentrationTypeSamplePresent;
   }
 
-  public boolean isGlucoseConcentrationUnit() {
-    return glucoseConcentrationUnit;
-  }
-
-  public void setGlucoseConcentrationUnit(boolean glucoseConcentrationUnit) {
-    this.glucoseConcentrationUnit = glucoseConcentrationUnit;
-  }
-
   public boolean isSensorStatusAnnunciationPresent() {
     return sensorStatusAnnunciationPresent;
   }
@@ -52,5 +45,25 @@ public class FlagsDto {
   public void setContextInformationsFollows(boolean contextInformationsFollows) {
     this.contextInformationsFollows = contextInformationsFollows;
   }
-  
+
+  public boolean isGlucoseConcentrationUnitFlag() {
+    return glucoseConcentrationUnitFlag;
+  }
+
+  public void setGlucoseConcentrationUnitFlag(boolean glucoseConcentrationUnitFlag) {
+    this.glucoseConcentrationUnitFlag = glucoseConcentrationUnitFlag;
+  }
+
+  public String getGlucoseConcentrationUnit() {
+    return glucoseConcentrationUnit;
+  }
+
+  public void setGlucoseConcentrationUnit() {
+    if (this.glucoseConcentrationUnitFlag) {
+      this.glucoseConcentrationUnit = "mol/L";
+    } else {
+      this.glucoseConcentrationUnit = "kg/L";
+    }
+  }
+
 }

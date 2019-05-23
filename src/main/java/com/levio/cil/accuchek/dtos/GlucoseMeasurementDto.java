@@ -7,7 +7,12 @@ public class GlucoseMeasurementDto {
 
   private FlagsDto flags;
   private LocalDateTime date;
+<<<<<<< HEAD
   private SensorStatusAnnunciationDto sensorStatusAnnunciationDto;
+=======
+  private int timeOffset;
+  private float glucoseConcentration;
+>>>>>>> 83de2ac118a9e50d1d90904264237e4277678d82
   
   @JsonIgnore
   private int sequenceNumber;
@@ -98,10 +103,19 @@ public class GlucoseMeasurementDto {
     return date;
   }
 
+  public int getTimeOffset() {
+    return timeOffset;
+  }
+
+  public void setTimeOffset(int timeOffset) {
+    this.timeOffset = timeOffset;
+  }
+
   public void setDate() {
     this.date = LocalDateTime.of(this.year, this.month, this.day, this.hour, this.minute, this.second);
   }
 
+<<<<<<< HEAD
   public SensorStatusAnnunciationDto getSensorStatusAnnunciationDto() {
     return sensorStatusAnnunciationDto;
   }
@@ -118,4 +132,14 @@ public class GlucoseMeasurementDto {
   public void setSampleLocation(int sampleLocation) {
     this.sampleLocation = sampleLocation;
   }
+=======
+  public float getGlucoseConcentration() {
+    return glucoseConcentration;
+  }
+
+  public void setGlucoseConcentration(float glucoseConcentration) {
+    this.glucoseConcentration = glucoseConcentration;
+  }
+
+>>>>>>> 83de2ac118a9e50d1d90904264237e4277678d82
 }
