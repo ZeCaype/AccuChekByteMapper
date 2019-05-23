@@ -7,6 +7,7 @@ public class GlucoseMeasurementDto {
 
   private FlagsDto flags;
   private LocalDateTime date;
+  private int timeOffset;
   
   @JsonIgnore
   private int sequenceNumber;
@@ -94,6 +95,14 @@ public class GlucoseMeasurementDto {
 
   public LocalDateTime getDate() {
     return date;
+  }
+
+  public int getTimeOffset() {
+    return timeOffset;
+  }
+
+  public void setTimeOffset(int timeOffset) {
+    this.timeOffset = timeOffset;
   }
 
   public void setDate() {

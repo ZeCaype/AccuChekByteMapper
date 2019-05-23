@@ -24,6 +24,7 @@ public class GlucoseMeasurementBytesMapper {
     setHourFromRawData(rawData, glucoseMeasurementDto);
     setMinutesFromRawData(rawData, glucoseMeasurementDto);
     setSecondsFromRawData(rawData, glucoseMeasurementDto);
+    setTimeOffsetFromRawData(rawData, glucoseMeasurementDto);
     
     glucoseMeasurementDto.setDate();
     glucoseMeasurementDto.setFlags(flags);
@@ -70,6 +71,13 @@ public class GlucoseMeasurementBytesMapper {
     String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 4) + getBitArrayFromSpecificByte(rawData, 3);
     int year = Integer.parseInt(rawSequenceNumberBits, 2);
     glucoseMeasurementDto.setYear(year);
+  }
+  
+  private void setTimeOffsetFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 11) + getBitArrayFromSpecificByte(rawData, 10);
+    int timeOffset = Integer.parseInt(rawSequenceNumberBits, 2);
+    glucoseMeasurementDto.setTimeOffset(timeOffset);
   }
 
   private void setSequenceNumberFromRawData(GlucoseMeasurementRawDataDto rawData,
