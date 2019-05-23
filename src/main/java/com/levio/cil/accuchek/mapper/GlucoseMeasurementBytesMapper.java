@@ -31,6 +31,7 @@ public class GlucoseMeasurementBytesMapper {
     setTimeOffsetFromRawData(rawData, glucoseMeasurementDto);
     setGlucoseConcentrationValueFromRawData(rawData, glucoseMeasurementDto);
     
+    glucoseMeasurementDto.setSensorStatusAnnunciationDto(sensorStatusAnnunciationDto);
     glucoseMeasurementDto.setDate();
     flags.setGlucoseConcentrationUnit();
     glucoseMeasurementDto.setFlags(flags);
@@ -44,8 +45,8 @@ public class GlucoseMeasurementBytesMapper {
   }
 
   private void setSensorStatusAnnunciation(GlucoseMeasurementRawDataDto rawData, SensorStatusAnnunciationDto sensorStatusAnnunciationDto) {
-    String rawSensorStatusAnnunciationByte1 = getBitArrayFromSpecificByte(rawData, 16);
-    String rawSensorStatusAnnunciationByte2 = getBitArrayFromSpecificByte(rawData, 17);
+    String rawSensorStatusAnnunciationByte1 = getBitArrayFromSpecificByte(rawData, 15);
+    String rawSensorStatusAnnunciationByte2 = getBitArrayFromSpecificByte(rawData, 16);
     rawSensorStatusAnnunciationByte1 = new StringBuilder(rawSensorStatusAnnunciationByte1).reverse().toString();
     rawSensorStatusAnnunciationByte2 = new StringBuilder(rawSensorStatusAnnunciationByte2).reverse().toString();
     int bitCount = 0;
