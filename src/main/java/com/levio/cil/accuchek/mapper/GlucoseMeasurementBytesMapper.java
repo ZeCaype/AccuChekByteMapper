@@ -1,7 +1,6 @@
 package com.levio.cil.accuchek.mapper;
 
 import com.levio.cil.accuchek.dtos.SensorStatusAnnunciationDto;
-import org.apache.tomcat.util.buf.StringUtils;
 import com.levio.cil.accuchek.dtos.FlagsDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementRawDataDto;
@@ -26,10 +25,11 @@ public class GlucoseMeasurementBytesMapper {
     setHourFromRawData(rawData, glucoseMeasurementDto);
     setMinutesFromRawData(rawData, glucoseMeasurementDto);
     setSecondsFromRawData(rawData, glucoseMeasurementDto);
-    setSensorStatusAnnunciation(rawData, sensorStatusAnnunciationDto);
-    setSampleLocation(rawData, glucoseMeasurementDto);
+    setSensorStatusAnnunciationFromRawData(rawData, sensorStatusAnnunciationDto);
+    setSampleLocationFromRawData(rawData, glucoseMeasurementDto);
     setTimeOffsetFromRawData(rawData, glucoseMeasurementDto);
     setGlucoseConcentrationValueFromRawData(rawData, glucoseMeasurementDto);
+    setTypeFromRawData(rawData, glucoseMeasurementDto);
     
     glucoseMeasurementDto.setSensorStatusAnnunciationDto(sensorStatusAnnunciationDto);
     glucoseMeasurementDto.setDate();
@@ -39,7 +39,49 @@ public class GlucoseMeasurementBytesMapper {
     return glucoseMeasurementDto;
   }
 
-  private void setSampleLocation(GlucoseMeasurementRawDataDto rawData, GlucoseMeasurementDto glucoseMeasurementDto) {
+  private void setTypeFromRawData(GlucoseMeasurementRawDataDto rawData, GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSampleLocationBits = getBitArrayFromSpecificByte(rawData, 14).substring(4,8);
+    int value = Integer.parseInt(rawSampleLocationBits, 2);
+    switch (value){
+      case 0:
+        glucoseMeasurementDto.setType("Reserved for future use");
+        break;
+      case 1:
+        glucoseMeasurementDto.setType("Capillary Whole blood");
+        break;
+      case 2:
+        glucoseMeasurementDto.setType("Capillary Plasma");
+        break;
+      case 3:
+        glucoseMeasurementDto.setType("Venous Whole blood");
+        break;
+      case 4:
+        glucoseMeasurementDto.setType("Venous Plasma");
+        break;
+      case 5:
+        glucoseMeasurementDto.setType("Arterial Whole blood");
+        break;
+      case 6:
+        glucoseMeasurementDto.setType("Arterial Plasma");
+        break;
+      case 7:
+        glucoseMeasurementDto.setType("Undetermined Whole blood");
+        break;
+      case 8:
+        glucoseMeasurementDto.setType("Undetermined Plasma");
+        break;
+      case 9:
+        glucoseMeasurementDto.setType("Interstitial Fluid (ISF)");
+        break;
+      case 10:
+        glucoseMeasurementDto.setType("Control Solution");
+        break;
+      default:
+        break;
+    }
+  }
+
+  private void setSampleLocationFromRawData(GlucoseMeasurementRawDataDto rawData, GlucoseMeasurementDto glucoseMeasurementDto) {
     String rawSampleLocationBits = getBitArrayFromSpecificByte(rawData, 14).substring(0,4);
     int value = Integer.parseInt(rawSampleLocationBits, 2);
 
@@ -67,7 +109,7 @@ public class GlucoseMeasurementBytesMapper {
     }
   }
 
-  private void setSensorStatusAnnunciation(GlucoseMeasurementRawDataDto rawData, SensorStatusAnnunciationDto sensorStatusAnnunciationDto) {
+  private void setSensorStatusAnnunciationFromRawData(GlucoseMeasurementRawDataDto rawData, SensorStatusAnnunciationDto sensorStatusAnnunciationDto) {
     String rawSensorStatusAnnunciationByte1 = getBitArrayFromSpecificByte(rawData, 15);
     String rawSensorStatusAnnunciationByte2 = getBitArrayFromSpecificByte(rawData, 16);
     rawSensorStatusAnnunciationByte1 = new StringBuilder(rawSensorStatusAnnunciationByte1).reverse().toString();

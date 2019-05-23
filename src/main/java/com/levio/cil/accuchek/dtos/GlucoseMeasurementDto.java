@@ -12,6 +12,7 @@ public class GlucoseMeasurementDto {
   private int timeOffset;
   private float glucoseConcentration;
   private String sampleLocation;
+  private String type;
   private int sequenceNumber;
 
   @JsonIgnore
@@ -137,4 +138,11 @@ public class GlucoseMeasurementDto {
     this.glucoseConcentration = glucoseConcentration;
   }
 
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
 }
