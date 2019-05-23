@@ -11,10 +11,9 @@ public class GlucoseMeasurementDto {
 
   private int timeOffset;
   private float glucoseConcentration;
-
-  
-  @JsonIgnore
+  private String sampleLocation;
   private int sequenceNumber;
+
   @JsonIgnore
   private int year;
   @JsonIgnore
@@ -27,8 +26,7 @@ public class GlucoseMeasurementDto {
   private int minute;
   @JsonIgnore
   private int second;
-  @JsonIgnore
-  private int sampleLocation;
+
 
   public GlucoseMeasurementDto() {
 
@@ -123,11 +121,11 @@ public class GlucoseMeasurementDto {
     this.sensorStatusAnnunciationDto = sensorStatusAnnunciationDto;
   }
 
-  public int getSampleLocation() {
+  public String getSampleLocation() {
     return sampleLocation;
   }
 
-  public void setSampleLocation(int sampleLocation) {
+  public void setSampleLocation(String sampleLocation) {
     this.sampleLocation = sampleLocation;
   }
 

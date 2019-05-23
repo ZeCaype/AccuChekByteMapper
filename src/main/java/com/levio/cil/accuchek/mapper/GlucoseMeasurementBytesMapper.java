@@ -40,8 +40,31 @@ public class GlucoseMeasurementBytesMapper {
   }
 
   private void setSampleLocation(GlucoseMeasurementRawDataDto rawData, GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSampleLocationBits = getBitArrayFromSpecificByte(rawData, 14).substring(0,4);
+    int value = Integer.parseInt(rawSampleLocationBits, 2);
 
-    //glucoseMeasurementDto.setSampleLocation();
+    switch (value){
+      case 0:
+        glucoseMeasurementDto.setSampleLocation("Reserved for future use");
+        break;
+      case 1:
+        glucoseMeasurementDto.setSampleLocation("Finger");
+        break;
+      case 2:
+        glucoseMeasurementDto.setSampleLocation("Alternate Site Test (AST)");
+        break;
+      case 3:
+        glucoseMeasurementDto.setSampleLocation("Earlobe");
+        break;
+      case 4:
+        glucoseMeasurementDto.setSampleLocation("Control solution");
+        break;
+      case 15:
+        glucoseMeasurementDto.setSampleLocation("Sample Location value not available");
+        break;
+      default:
+        break;
+    }
   }
 
   private void setSensorStatusAnnunciation(GlucoseMeasurementRawDataDto rawData, SensorStatusAnnunciationDto sensorStatusAnnunciationDto) {

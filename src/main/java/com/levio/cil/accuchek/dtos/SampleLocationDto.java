@@ -7,5 +7,11 @@ public class SampleLocationDto {
   public SampleLocationDto() {
   }
 
+  public String getSampleLocation() {
+    return sampleLocation;
+  }
 
+  public void setSampleLocation(String sampleLocation) {
+    this.sampleLocation = sampleLocation;
+  }
 }
