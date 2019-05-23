@@ -114,7 +114,6 @@ public class GlucoseMeasurementDto {
     this.date = LocalDateTime.of(this.year, this.month, this.day, this.hour, this.minute, this.second);
   }
 
-<<<<<<< HEAD
   public SensorStatusAnnunciationDto getSensorStatusAnnunciationDto() {
     return sensorStatusAnnunciationDto;
   }
@@ -131,7 +130,7 @@ public class GlucoseMeasurementDto {
   public void setSampleLocation(int sampleLocation) {
     this.sampleLocation = sampleLocation;
   }
-=======
+
   public float getGlucoseConcentration() {
     return glucoseConcentration;
   }
@@ -140,5 +139,4 @@ public class GlucoseMeasurementDto {
     this.glucoseConcentration = glucoseConcentration;
   }
 
->>>>>>> 83de2ac118a9e50d1d90904264237e4277678d82
 }
