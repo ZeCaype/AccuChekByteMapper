@@ -17,11 +17,65 @@ public class GlucoseMeasurementBytesMapper {
     FlagsDto flags = new FlagsDto();
     
     setFlagsFromRawData(rawData, flags);
-    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 2) + getBitArrayFromSpecificByte(rawData, 1);
-    glucoseMeasurementDto.setSequenceNumber(Integer.parseInt(rawSequenceNumberBits, 2));
+    setSequenceNumberFromRawData(rawData, glucoseMeasurementDto);
+    setYearFromRawData(rawData, glucoseMeasurementDto);
+    setMonthFromRawData(rawData, glucoseMeasurementDto);
+    setDayFromRawData(rawData, glucoseMeasurementDto);
+    setHourFromRawData(rawData, glucoseMeasurementDto);
+    setMinutesFromRawData(rawData, glucoseMeasurementDto);
+    setSecondsFromRawData(rawData, glucoseMeasurementDto);
     
+    glucoseMeasurementDto.setDate();
     glucoseMeasurementDto.setFlags(flags);
     return glucoseMeasurementDto;
+  }
+  
+  private void setSecondsFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 9);
+    int seconds = Integer.parseInt(rawSequenceNumberBits, 2);
+    glucoseMeasurementDto.setSecond(seconds);
+  }
+  
+  private void setMinutesFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 8);
+    int minutes = Integer.parseInt(rawSequenceNumberBits, 2);
+    glucoseMeasurementDto.setMinute(minutes);
+  }
+  
+  private void setHourFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 7);
+    int hour = Integer.parseInt(rawSequenceNumberBits, 2);
+    glucoseMeasurementDto.setHour(hour);
+  }
+  
+  private void setDayFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 6);
+    int day = Integer.parseInt(rawSequenceNumberBits, 2);
+    glucoseMeasurementDto.setDay(day);
+  }
+  
+  private void setMonthFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 5);
+    int month = Integer.parseInt(rawSequenceNumberBits, 2);
+    glucoseMeasurementDto.setMonth(month);
+  }
+
+  private void setYearFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 4) + getBitArrayFromSpecificByte(rawData, 3);
+    int year = Integer.parseInt(rawSequenceNumberBits, 2);
+    glucoseMeasurementDto.setYear(year);
+  }
+
+  private void setSequenceNumberFromRawData(GlucoseMeasurementRawDataDto rawData,
+      GlucoseMeasurementDto glucoseMeasurementDto) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 2) + getBitArrayFromSpecificByte(rawData, 1);
+    glucoseMeasurementDto.setSequenceNumber(Integer.parseInt(rawSequenceNumberBits, 2));
   }
 
   private void setFlagsFromRawData(GlucoseMeasurementRawDataDto rawData, FlagsDto flags) {
@@ -65,7 +119,12 @@ public class GlucoseMeasurementBytesMapper {
   }
   
   private String getBitArrayFromSpecificByte(GlucoseMeasurementRawDataDto rawData, int i) {
-    return String.format("%8s", Integer.toBinaryString(rawData.getData()[i])).replace(' ', '0');
+    String bitArray = String.format("%8s", Integer.toBinaryString(rawData.getData()[i])).replace(' ', '0');
+    
+    if (bitArray.length() != 8) {
+      bitArray = bitArray.substring(24);
+    }
+    return bitArray;
   }
   
 }
