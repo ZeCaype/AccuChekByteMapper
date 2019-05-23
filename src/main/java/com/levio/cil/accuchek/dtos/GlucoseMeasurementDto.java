@@ -7,12 +7,11 @@ public class GlucoseMeasurementDto {
 
   private FlagsDto flags;
   private LocalDateTime date;
-<<<<<<< HEAD
   private SensorStatusAnnunciationDto sensorStatusAnnunciationDto;
-=======
+
   private int timeOffset;
   private float glucoseConcentration;
->>>>>>> 83de2ac118a9e50d1d90904264237e4277678d82
+
   
   @JsonIgnore
   private int sequenceNumber;
