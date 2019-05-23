@@ -8,6 +8,7 @@ public class GlucoseMeasurementDto {
   private FlagsDto flags;
   private LocalDateTime date;
   private int timeOffset;
+  private float glucoseConcentration;
   
   @JsonIgnore
   private int sequenceNumber;
@@ -107,6 +108,14 @@ public class GlucoseMeasurementDto {
 
   public void setDate() {
     this.date = LocalDateTime.of(this.year, this.month, this.day, this.hour, this.minute, this.second);
+  }
+
+  public float getGlucoseConcentration() {
+    return glucoseConcentration;
+  }
+
+  public void setGlucoseConcentration(float glucoseConcentration) {
+    this.glucoseConcentration = glucoseConcentration;
   }
 
 }
