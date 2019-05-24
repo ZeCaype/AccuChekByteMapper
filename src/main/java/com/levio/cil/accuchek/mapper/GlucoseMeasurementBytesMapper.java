@@ -2,6 +2,8 @@ package com.levio.cil.accuchek.mapper;
 
 import com.levio.cil.accuchek.dtos.SensorStatusAnnunciationDto;
 import com.levio.cil.accuchek.dtos.FlagsDto;
+import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextDto;
+import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextRawDataDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementRawDataDto;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,18 @@ public class GlucoseMeasurementBytesMapper {
   
   public GlucoseMeasurementBytesMapper() {
 
+  }
+  
+
+  public GlucoseMeasurementContextDto mapToReadableGlucoseMeasurementContextDto(
+      GlucoseMeasurementContextRawDataDto dataDto) {
+    GlucoseMeasurementContextDto glucoseMeasurementContext = new GlucoseMeasurementContextDto();   
+    
+    //MAP HERE:
+    glucoseMeasurementContext.setType("someType");
+    
+    
+    return glucoseMeasurementContext;
   }
   
   public GlucoseMeasurementDto mapToReadableGlucoseMeasurementDto(GlucoseMeasurementRawDataDto rawData) {
