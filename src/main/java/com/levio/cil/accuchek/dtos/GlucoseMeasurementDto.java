@@ -110,7 +110,8 @@ public class GlucoseMeasurementDto {
   }
 
   public void setDate() {
-    this.date = LocalDateTime.of(this.year, this.month, this.day, this.hour, this.minute, this.second);
+    this.date =
+        LocalDateTime.of(this.year, this.month, this.day, this.hour, this.minute, this.second);
   }
 
   public SensorStatusAnnunciationDto getSensorStatusAnnunciationDto() {

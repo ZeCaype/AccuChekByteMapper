@@ -3,7 +3,7 @@ package com.levio.cil.accuchek.dtos;
 public class GlucoseMeasurementContextRawDataDto {
 
   public int[] data;
-  
+
   public GlucoseMeasurementContextRawDataDto() {
 
   }
@@ -15,5 +15,5 @@ public class GlucoseMeasurementContextRawDataDto {
   public void setData(int[] data) {
     this.data = data;
   }
-  
+
 }

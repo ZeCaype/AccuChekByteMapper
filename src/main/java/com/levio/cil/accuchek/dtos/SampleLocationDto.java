@@ -4,8 +4,7 @@ public class SampleLocationDto {
 
   private String sampleLocation;
 
-  public SampleLocationDto() {
-  }
+  public SampleLocationDto() {}
 
   public String getSampleLocation() {
     return sampleLocation;

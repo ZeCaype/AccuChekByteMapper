@@ -28,7 +28,8 @@ public class SensorStatusAnnunciationDto {
 
   public void setSensorMalfunctionOrFaultingAtTimeOfMeasurement(
       boolean sensorMalfunctionOrFaultingAtTimeOfMeasurement) {
-    this.sensorMalfunctionOrFaultingAtTimeOfMeasurement = sensorMalfunctionOrFaultingAtTimeOfMeasurement;
+    this.sensorMalfunctionOrFaultingAtTimeOfMeasurement =
+        sensorMalfunctionOrFaultingAtTimeOfMeasurement;
   }
 
   public boolean isSampleSizeForBloodOrControlSolutionInsufficientAtTimeOfMeasurement() {
@@ -37,7 +38,8 @@ public class SensorStatusAnnunciationDto {
 
   public void setSampleSizeForBloodOrControlSolutionInsufficientAtTimeOfMeasurement(
       boolean sampleSizeForBloodOrControlSolutionInsufficientAtTimeOfMeasurement) {
-    this.sampleSizeForBloodOrControlSolutionInsufficientAtTimeOfMeasurement = sampleSizeForBloodOrControlSolutionInsufficientAtTimeOfMeasurement;
+    this.sampleSizeForBloodOrControlSolutionInsufficientAtTimeOfMeasurement =
+        sampleSizeForBloodOrControlSolutionInsufficientAtTimeOfMeasurement;
   }
 
   public boolean isStripInsertionError() {
@@ -80,7 +82,8 @@ public class SensorStatusAnnunciationDto {
 
   public void setSensorTemperatureTooHighForValidTestResultAtTimeOfMeasurement(
       boolean sensorTemperatureTooHighForValidTestResultAtTimeOfMeasurement) {
-    this.sensorTemperatureTooHighForValidTestResultAtTimeOfMeasurement = sensorTemperatureTooHighForValidTestResultAtTimeOfMeasurement;
+    this.sensorTemperatureTooHighForValidTestResultAtTimeOfMeasurement =
+        sensorTemperatureTooHighForValidTestResultAtTimeOfMeasurement;
   }
 
   public boolean isSensorTemperatureTooLowForValidTestResultAtTimeOfMeasurement() {
@@ -89,7 +92,8 @@ public class SensorStatusAnnunciationDto {
 
   public void setSensorTemperatureTooLowForValidTestResultAtTimeOfMeasurement(
       boolean sensorTemperatureTooLowForValidTestResultAtTimeOfMeasurement) {
-    this.sensorTemperatureTooLowForValidTestResultAtTimeOfMeasurement = sensorTemperatureTooLowForValidTestResultAtTimeOfMeasurement;
+    this.sensorTemperatureTooLowForValidTestResultAtTimeOfMeasurement =
+        sensorTemperatureTooLowForValidTestResultAtTimeOfMeasurement;
   }
 
   public boolean isSensorReadInterruptedBecauseStripWasPulledTooSoonAtTimeOfMeasurement() {
@@ -98,7 +102,8 @@ public class SensorStatusAnnunciationDto {
 
   public void setSensorReadInterruptedBecauseStripWasPulledTooSoonAtTimeOfMeasurement(
       boolean sensorReadInterruptedBecauseStripWasPulledTooSoonAtTimeOfMeasurement) {
-    this.sensorReadInterruptedBecauseStripWasPulledTooSoonAtTimeOfMeasurement = sensorReadInterruptedBecauseStripWasPulledTooSoonAtTimeOfMeasurement;
+    this.sensorReadInterruptedBecauseStripWasPulledTooSoonAtTimeOfMeasurement =
+        sensorReadInterruptedBecauseStripWasPulledTooSoonAtTimeOfMeasurement;
   }
 
   public boolean isGeneralDeviceFaultHasOccurredInTheSensor() {
@@ -116,6 +121,7 @@ public class SensorStatusAnnunciationDto {
 
   public void setTimeFaultHasOccurredInTheSensorAndTimeMayBeInaccurate(
       boolean timeFaultHasOccurredInTheSensorAndTimeMayBeInaccurate) {
-    this.timeFaultHasOccurredInTheSensorAndTimeMayBeInaccurate = timeFaultHasOccurredInTheSensorAndTimeMayBeInaccurate;
+    this.timeFaultHasOccurredInTheSensorAndTimeMayBeInaccurate =
+        timeFaultHasOccurredInTheSensorAndTimeMayBeInaccurate;
   }
 }
