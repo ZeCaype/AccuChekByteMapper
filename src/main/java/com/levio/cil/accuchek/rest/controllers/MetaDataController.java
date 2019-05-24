@@ -1,5 +1,7 @@
 package com.levio.cil.accuchek.rest.controllers;
 
+import com.levio.cil.accuchek.dtos.ModelNumberStringDto;
+import com.levio.cil.accuchek.dtos.ModelNumberStringRawDto;
 import com.levio.cil.accuchek.dtos.SystemIdDto;
 import com.levio.cil.accuchek.dtos.SystemIdRawDto;
 import com.levio.cil.accuchek.mapper.MetaDataBytesMapper;
@@ -21,8 +23,14 @@ public class MetaDataController {
   }
 
   @PostMapping("/systemId")
-  public SystemIdDto mapGlucoseMeasurementContext(
+  public SystemIdDto mapSystemId(
       @RequestBody SystemIdRawDto dataDto) {
     return mapper.mapToReadableSystemIdDto(dataDto);
+  }
+
+  @PostMapping("/modelNumberString")
+  public ModelNumberStringDto mapModelNumberString(
+      @RequestBody ModelNumberStringRawDto dataDto) {
+    return mapper.mapToReadableModelNumberString(dataDto);
   }
 }
