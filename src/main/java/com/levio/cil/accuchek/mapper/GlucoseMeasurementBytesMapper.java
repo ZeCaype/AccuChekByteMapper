@@ -1,6 +1,7 @@
 package com.levio.cil.accuchek.mapper;
 
 import com.levio.cil.accuchek.dtos.SensorStatusAnnunciationDto;
+import com.levio.cil.accuchek.dtos.FlagsContextDto;
 import com.levio.cil.accuchek.dtos.FlagsDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextRawDataDto;
@@ -17,14 +18,56 @@ public class GlucoseMeasurementBytesMapper {
   
 
   public GlucoseMeasurementContextDto mapToReadableGlucoseMeasurementContextDto(
-      GlucoseMeasurementContextRawDataDto dataDto) {
+      GlucoseMeasurementContextRawDataDto rawData) {
     GlucoseMeasurementContextDto glucoseMeasurementContext = new GlucoseMeasurementContextDto();   
     
     //MAP HERE:
-    glucoseMeasurementContext.setType("someType");
+    setFlagsContextFromRawData(rawData, glucoseMeasurementContext);
     
     
     return glucoseMeasurementContext;
+  }
+
+
+  private void setFlagsContextFromRawData(GlucoseMeasurementContextRawDataDto rawData,
+      GlucoseMeasurementContextDto glucoseMeasurementContext) {
+    FlagsContextDto flags = new FlagsContextDto();
+    String rawFlagsBits = getBitArrayFromSpecificByte(rawData, 0);
+    rawFlagsBits = new StringBuilder(rawFlagsBits).reverse().toString();
+    int bitCount = 0;
+    
+    for (char bit: rawFlagsBits.toCharArray()) {
+      switch(bitCount) {
+        case 0:
+          flags.setCarbohydrateIdAndCarbohydratePresent(getBooleanFromBitValue(bit));
+          break;
+        case 1:
+          flags.setMealPresent(getBooleanFromBitValue(bit));
+          break;
+        case 2:
+          flags.setTesterHealthPresent(getBooleanFromBitValue(bit));
+          break;
+        case 3:
+          flags.setExerciseDurationAndExerciseIntensityPresent(getBooleanFromBitValue(bit));
+          break;
+        case 4:
+          flags.setMedicationIdAndMedicationPresent(getBooleanFromBitValue(bit));
+          break;
+        case 5:
+          flags.setMedicationValueUnits(getBooleanFromBitValue(bit));
+          break;
+        case 6:
+          flags.setHba1CPresent(getBooleanFromBitValue(bit));
+          break;
+        case 7:
+          flags.setExtendedFlagsPresent(getBooleanFromBitValue(bit));
+          break;
+        default:
+          break;
+      }
+      bitCount++;
+    }
+    glucoseMeasurementContext.setFlags(flags);
   }
   
   public GlucoseMeasurementDto mapToReadableGlucoseMeasurementDto(GlucoseMeasurementRawDataDto rawData) {
@@ -298,6 +341,15 @@ public class GlucoseMeasurementBytesMapper {
   }
   
   private String getBitArrayFromSpecificByte(GlucoseMeasurementRawDataDto rawData, int i) {
+    String bitArray = String.format("%8s", Integer.toBinaryString(rawData.getData()[i])).replace(' ', '0');
+    
+    if (bitArray.length() != 8) {
+      bitArray = bitArray.substring(24);
+    }
+    return bitArray;
+  }
+  
+  private String getBitArrayFromSpecificByte(GlucoseMeasurementContextRawDataDto rawData, int i) {
     String bitArray = String.format("%8s", Integer.toBinaryString(rawData.getData()[i])).replace(' ', '0');
     
     if (bitArray.length() != 8) {

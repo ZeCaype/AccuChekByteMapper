@@ -2,18 +2,18 @@ package com.levio.cil.accuchek.dtos;
 
 public class GlucoseMeasurementContextDto {
  
-  private String type;
+  private FlagsContextDto flags;
   
   public GlucoseMeasurementContextDto() {
     
   }
 
-  public String getType() {
-    return type;
+  public FlagsContextDto getFlags() {
+    return flags;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setFlags(FlagsContextDto flags) {
+    this.flags = flags;
   }
   
 }
