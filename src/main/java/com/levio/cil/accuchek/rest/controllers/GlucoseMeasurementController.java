@@ -2,6 +2,9 @@ package com.levio.cil.accuchek.rest.controllers;
 
 import com.levio.cil.accuchek.dtos.GlucoseFeatureDto;
 import com.levio.cil.accuchek.dtos.GlucoseFeatureRawDto;
+import com.levio.cil.accuchek.dtos.SystemIdDto;
+import com.levio.cil.accuchek.dtos.SystemIdRawDto;
+import com.levio.cil.accuchek.mapper.MetaDataBytesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,5 +47,4 @@ public class GlucoseMeasurementController {
 
     return mapper.mapToReadableGlucoseFeatureDto(dataDto);
   }
-
 }

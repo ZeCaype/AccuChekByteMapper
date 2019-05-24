@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 public class GlucoseServicesBytesMapper {
   
   public GlucoseServicesBytesMapper() {
-
   }
 
   public GlucoseFeatureDto mapToReadableGlucoseFeatureDto(GlucoseFeatureRawDto rawData){
