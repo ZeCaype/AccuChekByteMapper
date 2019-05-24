@@ -10,9 +10,9 @@ import com.levio.cil.accuchek.dtos.GlucoseMeasurementRawDataDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GlucoseMeasurementBytesMapper {
+public class GlucoseServicesBytesMapper {
   
-  public GlucoseMeasurementBytesMapper() {
+  public GlucoseServicesBytesMapper() {
 
   }
   
@@ -20,14 +20,156 @@ public class GlucoseMeasurementBytesMapper {
   public GlucoseMeasurementContextDto mapToReadableGlucoseMeasurementContextDto(
       GlucoseMeasurementContextRawDataDto rawData) {
     GlucoseMeasurementContextDto glucoseMeasurementContext = new GlucoseMeasurementContextDto();   
+    int bytePosition = 3;
     
     //MAP HERE:
     setFlagsContextFromRawData(rawData, glucoseMeasurementContext);
+    setSequenceNumberFromRawData(rawData, glucoseMeasurementContext);
+    setCarbohydrateIdFromRawData(rawData, glucoseMeasurementContext, bytePosition);
+    setMealFromRawData(rawData, glucoseMeasurementContext, bytePosition);
+    setTesterAndHealthFromRawData(rawData, glucoseMeasurementContext, bytePosition);
     
-    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 2) + getBitArrayFromSpecificByte(rawData, 1);
-    glucoseMeasurementContext.setSequenceNumber(Integer.parseInt(rawSequenceNumberBits, 2));
+    
     
     return glucoseMeasurementContext;
+  }
+
+
+  private void setTesterAndHealthFromRawData(GlucoseMeasurementContextRawDataDto rawData,
+      GlucoseMeasurementContextDto glucoseMeasurementContext, int bytePosition) {
+    if (glucoseMeasurementContext.getFlags().isTesterHealthPresent()) {
+      String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, bytePosition);
+      int firstNibbleBits = Integer.parseInt(rawSequenceNumberBits.substring(0, 4), 2);
+      int secondNibbleBits = Integer.parseInt(rawSequenceNumberBits.substring(4, 8), 2);
+      
+      switch (firstNibbleBits) {
+        case 0 :
+          glucoseMeasurementContext.setTester("Reserved for future use");
+          break;
+        case 1 :
+          glucoseMeasurementContext.setTester("Self");
+          break;
+        case 2 :
+          glucoseMeasurementContext.setTester("Health Care Professional");
+          break;
+        case 3 :
+          glucoseMeasurementContext.setTester("Lab Test");
+          break;
+        case 15 :
+          glucoseMeasurementContext.setTester("Tester value not available");
+          break;
+        default :
+          break;
+      }
+      
+      switch (secondNibbleBits) {
+        case 0 :
+          glucoseMeasurementContext.setHealth("Reserved for future use");
+          break;
+        case 1 :
+          glucoseMeasurementContext.setHealth("Minor health issues");
+          break;
+        case 2 :
+          glucoseMeasurementContext.setHealth("Major health issues");
+          break;
+        case 3 :
+          glucoseMeasurementContext.setHealth("During Menses");
+          break;
+        case 4 :
+          glucoseMeasurementContext.setHealth("Under stress");
+          break;
+        case 5 :
+          glucoseMeasurementContext.setHealth("No health issues");
+          break;
+        case 15 :
+          glucoseMeasurementContext.setTester("Health value not available");
+          break;
+        default :
+          break;
+      }
+      
+      bytePosition++;
+    }
+  }
+
+
+  private void setMealFromRawData(GlucoseMeasurementContextRawDataDto rawData,
+      GlucoseMeasurementContextDto glucoseMeasurementContext, int bytePosition) {
+    if (glucoseMeasurementContext.getFlags().isMealPresent()) {
+      String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, bytePosition);
+      int bitsValue = Integer.parseInt(rawSequenceNumberBits, 2);
+      
+      switch (bitsValue) {
+        case 0 :
+          glucoseMeasurementContext.setMeal("Reserved for future use");
+          break;
+        case 1 :
+          glucoseMeasurementContext.setMeal("Preprendial (before meal)");
+          break;
+        case 2 :
+          glucoseMeasurementContext.setMeal("Postprendial (after meal)");
+          break;
+        case 3 :
+          glucoseMeasurementContext.setMeal("Fasting");
+          break;
+        case 4 :
+          glucoseMeasurementContext.setMeal("Casual (snacks, drinks, etc.)");
+          break;
+        case 5 :
+          glucoseMeasurementContext.setMeal("Bedtime");
+          break;
+        default :
+          break;
+      }
+      bytePosition++;
+    }
+  }
+
+
+  private void setCarbohydrateIdFromRawData(GlucoseMeasurementContextRawDataDto rawData,
+      GlucoseMeasurementContextDto glucoseMeasurementContext, int bytePosition) {
+    if (glucoseMeasurementContext.getFlags().isCarbohydrateIdAndCarbohydratePresent()) {
+      String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, bytePosition);
+      int bitsValue = Integer.parseInt(rawSequenceNumberBits, 2);
+      glucoseMeasurementContext.setCarbohydrateUnits("Units of kilograms");
+      
+      switch (bitsValue) {
+        case 0 :
+          glucoseMeasurementContext.setCarbohydrateId("Reserved for future use");
+          break;
+        case 1 :
+          glucoseMeasurementContext.setCarbohydrateId("Breakfast");
+          break;
+        case 2 :
+          glucoseMeasurementContext.setCarbohydrateId("Lunch");
+          break;
+        case 3 :
+          glucoseMeasurementContext.setCarbohydrateId("Dinner");
+          break;
+        case 4 :
+          glucoseMeasurementContext.setCarbohydrateId("Snack");
+          break;
+        case 5 :
+          glucoseMeasurementContext.setCarbohydrateId("Drink");
+          break;
+        case 6 :
+          glucoseMeasurementContext.setCarbohydrateId("Supper");
+          break;
+        case 7 :
+          glucoseMeasurementContext.setCarbohydrateId("Brunch");
+          break;
+        default :
+          break;
+      }
+      bytePosition++;
+    }
+  }
+
+
+  private void setSequenceNumberFromRawData(GlucoseMeasurementContextRawDataDto rawData,
+      GlucoseMeasurementContextDto glucoseMeasurementContext) {
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 2) + getBitArrayFromSpecificByte(rawData, 1);
+    glucoseMeasurementContext.setSequenceNumber(Integer.parseInt(rawSequenceNumberBits, 2));
   }
 
 
@@ -225,7 +367,6 @@ public class GlucoseMeasurementBytesMapper {
           sensorStatusAnnunciationDto.setTimeFaultHasOccurredInTheSensorAndTimeMayBeInaccurate(getBooleanFromBitValue(bit));
           break;
         default:
-          //Cases 4-5-6-7 are bits reserved for future uses.
           break;
       }
       bitCount++;
@@ -324,9 +465,7 @@ public class GlucoseMeasurementBytesMapper {
         case 4:
           flags.setContextInformationsFollows(getBooleanFromBitValue(bit));
           break;
-          
         default:
-          //Cases 5-6-7 are bits reserved for future uses.
           break;
       }
       bitCount++;

@@ -9,16 +9,16 @@ import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextRawDataDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementRawDataDto;
-import com.levio.cil.accuchek.mapper.GlucoseMeasurementBytesMapper;
+import com.levio.cil.accuchek.mapper.GlucoseServicesBytesMapper;
 
 @RestController
 @RequestMapping(value = "/glucose")
 public class GlucoseMeasurementController {
 
-  private GlucoseMeasurementBytesMapper mapper;
+  private GlucoseServicesBytesMapper mapper;
 
   @Autowired
-  public GlucoseMeasurementController(GlucoseMeasurementBytesMapper glucoseMeasurementBytesMapper) {
+  public GlucoseMeasurementController(GlucoseServicesBytesMapper glucoseMeasurementBytesMapper) {
     this.mapper = glucoseMeasurementBytesMapper;
   }
 
