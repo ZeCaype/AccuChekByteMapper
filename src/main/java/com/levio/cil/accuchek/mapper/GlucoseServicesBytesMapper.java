@@ -21,17 +21,30 @@ public class GlucoseServicesBytesMapper {
       GlucoseMeasurementContextRawDataDto rawData) {
     GlucoseMeasurementContextDto glucoseMeasurementContext = new GlucoseMeasurementContextDto();   
     int bytePosition = 3;
-    
-    //MAP HERE:
+
     setFlagsContextFromRawData(rawData, glucoseMeasurementContext);
     setSequenceNumberFromRawData(rawData, glucoseMeasurementContext);
     setCarbohydrateIdFromRawData(rawData, glucoseMeasurementContext, bytePosition);
     setMealFromRawData(rawData, glucoseMeasurementContext, bytePosition);
     setTesterAndHealthFromRawData(rawData, glucoseMeasurementContext, bytePosition);
+    setExerciceDurationAndIntensityFromRawData(rawData, glucoseMeasurementContext, bytePosition);
     
     
     
     return glucoseMeasurementContext;
+  }
+
+
+  private void setExerciceDurationAndIntensityFromRawData(
+      GlucoseMeasurementContextRawDataDto rawData,
+      GlucoseMeasurementContextDto glucoseMeasurementContext, int bytePosition) {
+    if (glucoseMeasurementContext.getFlags().isExerciseDurationAndExerciseIntensityPresent()) {
+      String rawSequenceNumberBitsForExerciceDuration = getBitArrayFromSpecificByte(rawData, bytePosition + 1) + getBitArrayFromSpecificByte(rawData, bytePosition);
+      String rawSequenceNumberBitsForExerciceIntensity = getBitArrayFromSpecificByte(rawData, bytePosition + 2);
+      glucoseMeasurementContext.setExerciceDuration(Integer.parseInt(rawSequenceNumberBitsForExerciceDuration, 2));
+      glucoseMeasurementContext.setExerciceIntensity(Integer.parseInt(rawSequenceNumberBitsForExerciceIntensity, 2));
+      bytePosition++;
+    }
   }
 
 

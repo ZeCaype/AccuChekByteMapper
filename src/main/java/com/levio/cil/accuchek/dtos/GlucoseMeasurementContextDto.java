@@ -9,6 +9,8 @@ public class GlucoseMeasurementContextDto {
   private String meal;
   private String tester;
   private String health;
+  private int exerciceDuration;
+  private int exerciceIntensity;
   
   public GlucoseMeasurementContextDto() {
     
@@ -69,5 +71,22 @@ public class GlucoseMeasurementContextDto {
   public void setHealth(String health) {
     this.health = health;
   }
+
+  public int getExerciceDuration() {
+    return exerciceDuration;
+  }
+
+  public void setExerciceDuration(int exerciceDuration) {
+    this.exerciceDuration = exerciceDuration;
+  }
+
+  public int getExerciceIntensity() {
+    return exerciceIntensity;
+  }
+
+  public void setExerciceIntensity(int exerciceIntensity) {
+    this.exerciceIntensity = exerciceIntensity;
+  }
+  
 
 }
