@@ -1,7 +1,8 @@
-package com.levio.cil.accuchek.dtos;
+package com.levio.cil.accuchek.glucose.measurements.dtos;
 
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.levio.cil.accuchek.dtos.SensorStatusAnnunciationDto;
 
 public class GlucoseMeasurementDto {
 

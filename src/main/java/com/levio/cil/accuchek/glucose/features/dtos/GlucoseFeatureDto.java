@@ -1,4 +1,4 @@
-package com.levio.cil.accuchek.dtos;
+package com.levio.cil.accuchek.glucose.features.dtos;
 
 public class GlucoseFeatureDto {
 
@@ -14,8 +14,7 @@ public class GlucoseFeatureDto {
   private boolean timeFaultSupported;
   private boolean multipleBondSupported;
 
-  public GlucoseFeatureDto() {
-  }
+  public GlucoseFeatureDto() {}
 
   public boolean isLowBatteryDetectionDuringMeasurementSupported() {
     return lowBatteryDetectionDuringMeasurementSupported;
@@ -23,7 +22,8 @@ public class GlucoseFeatureDto {
 
   public void setLowBatteryDetectionDuringMeasurementSupported(
       boolean lowBatteryDetectionDuringMeasurementSupported) {
-    this.lowBatteryDetectionDuringMeasurementSupported = lowBatteryDetectionDuringMeasurementSupported;
+    this.lowBatteryDetectionDuringMeasurementSupported =
+        lowBatteryDetectionDuringMeasurementSupported;
   }
 
   public boolean isSensorMalfunctionDetectionSupported() {

@@ -4,8 +4,7 @@ public class SystemIdRawDto {
 
   public int[] data;
 
-  public SystemIdRawDto() {
-  }
+  public SystemIdRawDto() {}
 
   public int[] getData() {
     return data;

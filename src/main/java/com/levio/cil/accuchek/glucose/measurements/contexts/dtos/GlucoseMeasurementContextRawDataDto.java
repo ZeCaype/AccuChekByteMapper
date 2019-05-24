@@ -1,4 +1,4 @@
-package com.levio.cil.accuchek.dtos;
+package com.levio.cil.accuchek.glucose.measurements.contexts.dtos;
 
 public class GlucoseMeasurementContextRawDataDto {
 

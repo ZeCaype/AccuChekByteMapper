@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.levio.cil.accuchek.dtos.GlucoseFeatureDto;
-import com.levio.cil.accuchek.dtos.GlucoseFeatureRawDto;
-import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextDto;
-import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextRawDataDto;
-import com.levio.cil.accuchek.dtos.GlucoseMeasurementDto;
-import com.levio.cil.accuchek.dtos.GlucoseMeasurementRawDataDto;
+import com.levio.cil.accuchek.glucose.features.dtos.GlucoseFeatureDto;
+import com.levio.cil.accuchek.glucose.features.dtos.GlucoseFeatureRawDto;
+import com.levio.cil.accuchek.glucose.measurements.contexts.dtos.GlucoseMeasurementContextDto;
+import com.levio.cil.accuchek.glucose.measurements.contexts.dtos.GlucoseMeasurementContextRawDataDto;
+import com.levio.cil.accuchek.glucose.measurements.dtos.GlucoseMeasurementDto;
+import com.levio.cil.accuchek.glucose.measurements.dtos.GlucoseMeasurementRawDataDto;
 import com.levio.cil.accuchek.mapper.GlucoseServicesBytesMapper;
 
 @RestController
@@ -37,10 +37,9 @@ public class GlucoseMeasurementController {
 
     return mapper.mapToReadableGlucoseMeasurementContextDto(dataDto);
   }
-  
+
   @PostMapping("/feature")
-  public GlucoseFeatureDto mapGlucoseMeasurementContext(
-      @RequestBody GlucoseFeatureRawDto dataDto) {
+  public GlucoseFeatureDto mapGlucoseMeasurementContext(@RequestBody GlucoseFeatureRawDto dataDto) {
 
     return mapper.mapToReadableGlucoseFeatureDto(dataDto);
   }

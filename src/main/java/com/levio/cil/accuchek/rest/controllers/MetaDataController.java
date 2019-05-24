@@ -22,8 +22,7 @@ public class MetaDataController {
   }
 
   @PostMapping("/systemId")
-  public SystemIdDto mapGlucoseMeasurementContext(
-      @RequestBody SystemIdRawDto dataDto) {
+  public SystemIdDto mapGlucoseMeasurementContext(@RequestBody SystemIdRawDto dataDto) {
     return mapper.mapToReadableSystemIdDto(dataDto);
   }
 }
