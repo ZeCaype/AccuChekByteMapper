@@ -1,5 +1,7 @@
 package com.levio.cil.accuchek.mapper;
 
+import com.levio.cil.accuchek.dtos.GlucoseFeatureDto;
+import com.levio.cil.accuchek.dtos.GlucoseFeatureRawDto;
 import com.levio.cil.accuchek.dtos.SensorStatusAnnunciationDto;
 import com.levio.cil.accuchek.dtos.FlagsContextDto;
 import com.levio.cil.accuchek.dtos.FlagsDto;
@@ -10,12 +12,78 @@ import com.levio.cil.accuchek.dtos.GlucoseMeasurementRawDataDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GlucoseMeasurementBytesMapper {
+public class GlucoseServicesBytesMapper {
   
-  public GlucoseMeasurementBytesMapper() {
+  public GlucoseServicesBytesMapper() {
 
   }
-  
+
+  public GlucoseFeatureDto mapToReadableGlucoseFeatureDto(GlucoseFeatureRawDto rawData){
+    GlucoseFeatureDto glucoseFeatureDto = new GlucoseFeatureDto();
+
+    setGlucoseFeatureFlags(rawData, glucoseFeatureDto);
+    return  glucoseFeatureDto;
+  }
+
+  private void setGlucoseFeatureFlags(GlucoseFeatureRawDto rawData, GlucoseFeatureDto glucoseFeatureDto) {
+      String rawGlucoseFeatureByte1 = getBitArrayFromSpecificByte(rawData, 0);
+      String rawGlucoseFeatureByte2 = getBitArrayFromSpecificByte(rawData, 1);
+      rawGlucoseFeatureByte1 = new StringBuilder(rawGlucoseFeatureByte1).reverse().toString();
+      rawGlucoseFeatureByte2 = new StringBuilder(rawGlucoseFeatureByte2).reverse().toString();
+
+      int bitCount = 0;
+
+      for (char bit: rawGlucoseFeatureByte1.toCharArray()) {
+        switch(bitCount) {
+          case 0:
+            glucoseFeatureDto.setLowBatteryDetectionDuringMeasurementSupported(getBooleanFromBitValue(bit));
+            break;
+          case 1:
+            glucoseFeatureDto.setSensorMalfunctionDetectionSupported(getBooleanFromBitValue(bit));
+            break;
+          case 2:
+            glucoseFeatureDto.setSensorSampleSizeSupported(getBooleanFromBitValue(bit));
+            break;
+          case 3:
+            glucoseFeatureDto.setSensorStripInsertionErrorDetectionSupported(getBooleanFromBitValue(bit));
+            break;
+          case 4:
+            glucoseFeatureDto.setSensorStripTypeErrorDetectionSupported(getBooleanFromBitValue(bit));
+            break;
+          case 5:
+            glucoseFeatureDto.setSensorResultHighLowDetectionSupported(getBooleanFromBitValue(bit));
+            break;
+          case 6:
+            glucoseFeatureDto.setSensorTemperatureHighLowDetectionSupported(getBooleanFromBitValue(bit));
+            break;
+          case 7:
+            glucoseFeatureDto.setSensorReadInterruptDetectionSupported(getBooleanFromBitValue(bit));
+            break;
+          default:
+            break;
+        }
+        bitCount++;
+    }
+
+    bitCount = 0;
+
+    for (char bit: rawGlucoseFeatureByte2.toCharArray()) {
+      switch(bitCount) {
+        case 0:
+          glucoseFeatureDto.setGeneralDeviceFaultSupported(getBooleanFromBitValue(bit));
+          break;
+        case 1:
+          glucoseFeatureDto.setTimeFaultSupported(getBooleanFromBitValue(bit));
+          break;
+        case 2:
+          glucoseFeatureDto.setMultipleBondSupported(getBooleanFromBitValue(bit));
+          break;
+        default:
+          break;
+      }
+      bitCount++;
+    }
+  }
 
   public GlucoseMeasurementContextDto mapToReadableGlucoseMeasurementContextDto(
       GlucoseMeasurementContextRawDataDto rawData) {
@@ -354,6 +422,15 @@ public class GlucoseMeasurementBytesMapper {
   private String getBitArrayFromSpecificByte(GlucoseMeasurementContextRawDataDto rawData, int i) {
     String bitArray = String.format("%8s", Integer.toBinaryString(rawData.getData()[i])).replace(' ', '0');
     
+    if (bitArray.length() != 8) {
+      bitArray = bitArray.substring(24);
+    }
+    return bitArray;
+  }
+
+  private String getBitArrayFromSpecificByte(GlucoseFeatureRawDto rawData, int i) {
+    String bitArray = String.format("%8s", Integer.toBinaryString(rawData.getData()[i])).replace(' ', '0');
+
     if (bitArray.length() != 8) {
       bitArray = bitArray.substring(24);
     }

@@ -1,5 +1,7 @@
 package com.levio.cil.accuchek.rest.controllers;
 
+import com.levio.cil.accuchek.dtos.GlucoseFeatureDto;
+import com.levio.cil.accuchek.dtos.GlucoseFeatureRawDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,16 +11,16 @@ import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextRawDataDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementRawDataDto;
-import com.levio.cil.accuchek.mapper.GlucoseMeasurementBytesMapper;
+import com.levio.cil.accuchek.mapper.GlucoseServicesBytesMapper;
 
 @RestController
 @RequestMapping(value = "/glucose")
 public class GlucoseMeasurementController {
 
-  private GlucoseMeasurementBytesMapper mapper;
+  private GlucoseServicesBytesMapper mapper;
 
   @Autowired
-  public GlucoseMeasurementController(GlucoseMeasurementBytesMapper glucoseMeasurementBytesMapper) {
+  public GlucoseMeasurementController(GlucoseServicesBytesMapper glucoseMeasurementBytesMapper) {
     this.mapper = glucoseMeasurementBytesMapper;
   }
 
@@ -34,6 +36,13 @@ public class GlucoseMeasurementController {
       @RequestBody GlucoseMeasurementContextRawDataDto dataDto) {
 
     return mapper.mapToReadableGlucoseMeasurementContextDto(dataDto);
+  }
+
+  @PostMapping("/feature")
+  public GlucoseFeatureDto mapGlucoseMeasurementContext(
+      @RequestBody GlucoseFeatureRawDto dataDto) {
+
+    return mapper.mapToReadableGlucoseFeatureDto(dataDto);
   }
 
 }
