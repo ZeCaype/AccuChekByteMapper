@@ -2,10 +2,11 @@ package com.levio.cil.accuchek.dtos;
 
 public class SystemIdDto {
 
-  private long manufacturerIdentifier;
-  private int organizationallyUniqueIdentifier;
+    private long manufacturerIdentifier;
+    private int organizationallyUniqueIdentifier;
 
-  public SystemIdDto() {}
+  public SystemIdDto() {
+  }
 
   public long getManufacturerIdentifier() {
     return manufacturerIdentifier;

@@ -1,10 +1,9 @@
 package com.levio.cil.accuchek.dtos;
 
-public class SystemIdRawDto {
-
+public class ModelNumberStringRawDto {
   public int[] data;
 
-  public SystemIdRawDto() {
+  public ModelNumberStringRawDto() {
   }
 
   public int[] getData() {
