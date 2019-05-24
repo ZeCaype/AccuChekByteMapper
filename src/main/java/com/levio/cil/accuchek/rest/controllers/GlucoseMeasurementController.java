@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.levio.cil.accuchek.dtos.GlucoseFeatureDto;
+import com.levio.cil.accuchek.dtos.GlucoseFeatureRawDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementContextRawDataDto;
 import com.levio.cil.accuchek.dtos.GlucoseMeasurementDto;
@@ -34,6 +36,13 @@ public class GlucoseMeasurementController {
       @RequestBody GlucoseMeasurementContextRawDataDto dataDto) {
 
     return mapper.mapToReadableGlucoseMeasurementContextDto(dataDto);
+  }
+  
+  @PostMapping("/feature")
+  public GlucoseFeatureDto mapGlucoseMeasurementContext(
+      @RequestBody GlucoseFeatureRawDto dataDto) {
+
+    return mapper.mapToReadableGlucoseFeatureDto(dataDto);
   }
 
 }
