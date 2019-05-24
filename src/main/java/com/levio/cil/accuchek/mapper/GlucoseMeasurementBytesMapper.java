@@ -24,6 +24,8 @@ public class GlucoseMeasurementBytesMapper {
     //MAP HERE:
     setFlagsContextFromRawData(rawData, glucoseMeasurementContext);
     
+    String rawSequenceNumberBits = getBitArrayFromSpecificByte(rawData, 2) + getBitArrayFromSpecificByte(rawData, 1);
+    glucoseMeasurementContext.setSequenceNumber(Integer.parseInt(rawSequenceNumberBits, 2));
     
     return glucoseMeasurementContext;
   }
